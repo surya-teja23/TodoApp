@@ -11,17 +11,6 @@ export default function CompletedList( { todos , toggleTodo , editTodo , updateT
     todos.map(todo => {
       
       return (
-        todo.isEditing ? 
-          <div className="input-group pt-3 px-3" style={{maxWidth: '650px'}}>
-            <div className="form-floating">
-              <input ref={title} className="form-control" placeholder="Enter" />
-              <label>Enter Updated Todo</label>
-            </div>
-            <input ref={dueDate} className="form-control" type="date" />
-            <button disabled={!title.current.value || !dueDate.current.value} onClick={() => updateTodo(todo.id,title.current.value,dueDate.current.value)} className="btn btn-primary"><RxUpdate fontSize={30} /></button>
-            <button onClick={() => cancelUpdate(todo.id)} className="btn btn-danger"><GiCancel fontSize={30} /></button>
-          </div>
-        :
           <Todo key={todo.id} 
             todo={todo} 
             toggleTodo={toggleTodo}

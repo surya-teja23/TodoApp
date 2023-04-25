@@ -18,7 +18,7 @@ export default function TodoList( { todos , toggleTodo , editTodo , updateTodo ,
               <label>Enter Updated Todo</label>
             </div>
             <input ref={dueDate} className="form-control" type="date" />
-            <button disabled={!title.current.value || !dueDate.current.value} onClick={() => updateTodo(todo.id,title.current.value,dueDate.current.value)} className="btn btn-primary"><RxUpdate fontSize={30} /></button>
+            <button onClick={() => updateTodo(todo.id,title.current.value,dueDate.current.value)} className="btn btn-primary"><RxUpdate fontSize={30} /></button>
             <button onClick={() => cancelUpdate(todo.id)} className="btn btn-danger"><GiCancel fontSize={30} /></button>
           </div>
         :
