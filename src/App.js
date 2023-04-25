@@ -1,10 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlinePlus , AiFillDelete } from 'react-icons/ai'
 import TodoList from './TodoList'
+import CompletedList from './CompletedList'
 
 export default function App() {
-  const [todos, setTodos] = useState([
-    {
+  const [todos, setTodos] = useState([])
+
+  const [completedPercentage, setCompletedPercentage] = useState((todos.filter(todo => todo.completed).length / todos.length) * 100)
+
+  useEffect( () => {
+    let savedTodos = JSON.parse(localStorage.getItem('todos'))
+    if(savedTodos) setTodos(savedTodos)
+    else setTodos([{
       id:1,
       title:'Watch Sisu',
       dueDate: '28-04-23',
@@ -16,14 +23,14 @@ export default function App() {
       dueDate: '28-02-18',
       completed: false,
       isEditing: false
-    }
-  ])
-
-  const [completedPercentage, setCompletedPercentage] = useState((todos.filter(todo => todo.completed).length / todos.length) * 100)
+    }])
+  } , [])
 
   useEffect( () => {
     const percentage = (todos.filter(todo => todo.completed).length / todos.length) * 100
     setCompletedPercentage(isNaN(percentage) ? 0 : percentage)
+
+    localStorage.setItem('todos' , JSON.stringify(todos))
   }, [todos])
 
   const addTodo = (title , dueDate) => {
@@ -96,25 +103,39 @@ export default function App() {
             <label>Enter Todo Title</label>
           </div>
           <input ref={dueDate} className='form-control' type='date' />
-          <button onClick={() => {
+          <button title='Add Todo' onClick={() => {
             addTodo(title.current.value, dueDate.current.value)
             title.current.value = ''
             dueDate.current.value = ''
-          }} className='fw-bold btn btn-primary d-flex align-items-center'><AiOutlinePlus style={{color: 'white',fontSize: '30px'}} /></button>
-          <button disabled={!completedPercentage} onClick={deleteCompleted} className='btn btn-danger d-flex align-items-center'><AiFillDelete style={{color: 'white',fontSize: '30px'}} /></button>
+          }} className='fw-bold btn btn-primary d-flex align-items-center'>
+            <AiOutlinePlus title='Add Todo' style={{color: 'white',fontSize: '30px'}} />
+          </button>
+          <button title='Delete Completed' disabled={!completedPercentage} onClick={deleteCompleted} className='btn btn-danger d-flex align-items-center'>
+            <AiFillDelete title='Delete Completed' style={{color: 'white',fontSize: '30px'}} /></button>
         </div>
-        <div className='mt-3 align-self-center fs-4 rounded-circle border border-dark d-flex align-items-center justify-content-center' style={{
-          height: '100px',
-          width: '100px',
+        <div title='Completion Percentage' className='mx-auto mt-3 align-self-center fs-4 rounded-circle border border-dark d-flex align-items-center justify-content-center' style={{
+          height: '75px',
+          width: '75px',
           background: `conic-gradient(#0d6efd88 ${completedPercentage*3.6}deg,white 0deg)`
         }}>
           {completedPercentage ? completedPercentage === 100 ? 100 : completedPercentage.toFixed(2) : 0}%
         </div>
       </div>
       <hr />
-      <h1 className='px-3'>Todo List</h1>
+      <h1 className='text-decoration-underline px-3'>Todo List</h1>
+      <h3 className='px-3'>Number of Tasks left todo : {todos.filter(todo => !todo.completed).length}</h3>
       <TodoList 
-        todos={todos} 
+        todos={todos.filter(todo => !todo.completed)} 
+        toggleTodo={toggleTodo}
+        editTodo={editTodo} 
+        updateTodo={updateTodo}
+        cancelUpdate={cancelUpdate}
+        deleteTodo={deleteTodo} />
+      <hr />
+      <h1 className='text-decoration-underline px-3'>Completed List</h1>
+      <h3 className='px-3'>Number of Tasks completed : {todos.filter(todo => todo.completed).length}</h3>
+      <CompletedList 
+        todos={todos.filter(todo => todo.completed)} 
         toggleTodo={toggleTodo}
         editTodo={editTodo} 
         updateTodo={updateTodo}
