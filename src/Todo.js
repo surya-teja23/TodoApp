@@ -7,13 +7,13 @@ export default function Todo({ todo , toggleTodo , editTodo , deleteTodo }) {
   return (
     <div className="input-group mt-3" key={id}>
       <div className="input-group-text">
-        <input onChange={()=>toggleTodo(id)} checked={completed} id={id} className="form-check-input" type="checkbox" />
+        <input style={{cursor: 'pointer'}} onChange={()=>toggleTodo(id)} checked={completed} id={id} className="form-check-input" type="checkbox" />
       </div>
       <div className="input-group-text">
         <label className={completed ? 'text-decoration-line-through' : ''} htmlFor={id}>{title} &nbsp; : &nbsp; {dueDate}</label>
       </div>
       <button title={completed ? 'Edit Not Allowed on Completed Task' : 'Edit Task'} 
-        style={{cursor: completed ? 'not-allowed' : 'default'}}
+        style={{cursor: completed ? 'not-allowed' : 'pointer'}}
         onClick={
           completed ? () => false : () => editTodo(id)
         } 

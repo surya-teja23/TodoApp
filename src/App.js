@@ -10,7 +10,7 @@ export default function App() {
 
   useEffect( () => {
     let savedTodos = JSON.parse(localStorage.getItem('todos'))
-    console.log(savedTodos)
+    savedTodos.map(todo => todo.isEditing = false)
     if(savedTodos.length) setTodos(savedTodos)
     else setTodos([{
       id:1,
@@ -88,39 +88,42 @@ export default function App() {
     setTodos([...todos.filter(todo => todo.id !== id)])
   }
 
-  const title = useRef()
-  const dueDate = useRef()
+  const [title , setTitle] = useState('')
+  const [dueDate , setDueDate] = useState('')
 
   return (
     <>
       <div className='d-flex align-item-center'>
         <div className='align-self-center input-group pt-3' style={{maxWidth: '650px'}}>
           <div className='form-floating'>
-            <input ref={title} className='form-control' placeholder='Enter' />
+            <input onChange={ e => setTitle(e.target.value)} className='form-control' placeholder='Enter' />
             <label>Enter Todo Title</label>
           </div>
-          <input ref={dueDate} className='form-control' type='date' />
-          <button title='Add Todo' onClick={() => {
-            addTodo(title.current.value, dueDate.current.value)
-            title.current.value = ''
-            dueDate.current.value = ''
+          <input onChange={ e => setDueDate(e.target.value)} className='form-control' type='date' />
+          <button style={{cursor: title === '' || dueDate === '' ? 'not-allowed' : 'pointer'}} title={title === '' || dueDate === '' ? 'Title and Duedate can\'t be empty' : 'Add Todo'} onClick={
+            title === '' || dueDate === '' ? () => false : () => {
+            addTodo(title, dueDate)
+            setTitle('')
+            setDueDate('')
           }} className='fw-bold btn btn-primary d-flex align-items-center'>
-            <AiOutlinePlus title='Add Todo' style={{color: 'white',fontSize: '30px'}} />
+            <AiOutlinePlus style={{color: 'white',fontSize: '30px'}} />
           </button>
-          <button title={todos.filter(todo => todo.completed).length ? 'Delete Completed' : 'No Completed Tasks Available'} 
-            style={{cursor: !completedPercentage ? 'not-allowed' : 'default'}} 
+          <button 
+            title={todos.filter(todo => todo.completed).length ? 'Delete Completed' : 'No Completed Tasks Available'} 
+            style={{cursor: !completedPercentage ? 'not-allowed' : 'pointer'}} 
             onClick={
               !completedPercentage ? () => false : deleteCompleted
             } 
             className='btn btn-danger d-flex align-items-center'>
-            <AiFillDelete title={todos.filter(todo => todo.completed).length ? 'Delete Completed' : 'No Completed Tasks Available'} style={{color: 'white',fontSize: '30px'}} /></button>
+            <AiFillDelete style={{color: 'white',fontSize: '30px'}} />
+          </button>
         </div>
-        <div title='Completion Percentage' className='mx-auto mt-3 align-self-center fs-4 rounded-circle border border-dark d-flex align-items-center justify-content-center' style={{
+        <div title='Completion Percentage' className='mx-auto mt-3 align-self-center fs-4 rounded-circle d-flex align-items-center justify-content-center' style={{
           height: '75px',
           width: '75px',
-          background: `conic-gradient(#0d6efd88 ${completedPercentage*3.6}deg,white 0deg)`
+          background: `conic-gradient(#ffc107 ${completedPercentage*3.6}deg,white 0deg)`
         }}>
-          {completedPercentage ? completedPercentage === 100 ? 100 : completedPercentage.toFixed(2) : 0}%
+          {completedPercentage ? Number.isInteger(completedPercentage) ? completedPercentage.toFixed(0) : completedPercentage.toFixed(2) : 0}%
         </div>
       </div>
       <hr />

@@ -22,7 +22,8 @@ export default function TodoList( { todos , toggleTodo , editTodo , updateTodo ,
                 updateTodo(todo.id,title,dueDate)
                 setTitle('')
                 setDueDate('')} 
-              } 
+              }
+              style={{cursor: title === '' || dueDate === '' ? 'not-allowed' : 'pointer'}} 
               title={title === '' || dueDate === '' ? 'Title and DueDate Can\'t be empty' : 'Update Task'}
               className="btn btn-primary"><RxUpdate fontSize={30} /></button>
             <button title="Cancel Update" onClick={() => cancelUpdate(todo.id)} className="btn btn-danger"><GiCancel fontSize={30} /></button>
