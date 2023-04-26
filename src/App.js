@@ -10,7 +10,8 @@ export default function App() {
 
   useEffect( () => {
     let savedTodos = JSON.parse(localStorage.getItem('todos'))
-    if(savedTodos) setTodos(savedTodos)
+    console.log(savedTodos)
+    if(savedTodos.length) setTodos(savedTodos)
     else setTodos([{
       id:1,
       title:'Watch Sisu',
@@ -67,11 +68,7 @@ export default function App() {
   const updateTodo = (id,title,dueDate) => {
     let newTodos = todos
     let  todo = newTodos.find(todo => todo.id === id)
-    if(title === '' || dueDate === '') {
-      todo.isEditing = !todo.isEditing
-      setTodos([...newTodos])
-      return
-    }
+
     todo.title = title
     todo.dueDate = dueDate
     todo.isEditing = !todo.isEditing
@@ -110,8 +107,13 @@ export default function App() {
           }} className='fw-bold btn btn-primary d-flex align-items-center'>
             <AiOutlinePlus title='Add Todo' style={{color: 'white',fontSize: '30px'}} />
           </button>
-          <button title='Delete Completed' disabled={!completedPercentage} onClick={deleteCompleted} className='btn btn-danger d-flex align-items-center'>
-            <AiFillDelete title='Delete Completed' style={{color: 'white',fontSize: '30px'}} /></button>
+          <button title={todos.filter(todo => todo.completed).length ? 'Delete Completed' : 'No Completed Tasks Available'} 
+            style={{cursor: !completedPercentage ? 'not-allowed' : 'default'}} 
+            onClick={
+              !completedPercentage ? () => false : deleteCompleted
+            } 
+            className='btn btn-danger d-flex align-items-center'>
+            <AiFillDelete title={todos.filter(todo => todo.completed).length ? 'Delete Completed' : 'No Completed Tasks Available'} style={{color: 'white',fontSize: '30px'}} /></button>
         </div>
         <div title='Completion Percentage' className='mx-auto mt-3 align-self-center fs-4 rounded-circle border border-dark d-flex align-items-center justify-content-center' style={{
           height: '75px',

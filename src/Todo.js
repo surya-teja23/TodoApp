@@ -12,8 +12,13 @@ export default function Todo({ todo , toggleTodo , editTodo , deleteTodo }) {
       <div className="input-group-text">
         <label className={completed ? 'text-decoration-line-through' : ''} htmlFor={id}>{title} &nbsp; : &nbsp; {dueDate}</label>
       </div>
-      <button onClick={() => editTodo(id)} disabled={completed} className="d-flex align-items-center btn btn-primary"><MdEdit style={{color: 'white'}} fontSize={30} /></button>
-      <button onClick={() => deleteTodo(id)} className="d-flex align-items-center btn btn-danger"><FaTrash fontSize={30} /></button>
+      <button title={completed ? 'Edit Not Allowed on Completed Task' : 'Edit Task'} 
+        style={{cursor: completed ? 'not-allowed' : 'default'}}
+        onClick={
+          completed ? () => false : () => editTodo(id)
+        } 
+        className="d-flex align-items-center btn btn-primary"><MdEdit style={{color: 'white'}} fontSize={30} /></button>
+      <button title="Delete Task" onClick={() => deleteTodo(id)} className="d-flex align-items-center btn btn-danger"><FaTrash fontSize={30} /></button>
     </div>
   )
 }
