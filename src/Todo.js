@@ -5,7 +5,7 @@ import { MdEdit } from 'react-icons/md'
 export default function Todo({ todo , toggleTodo , editTodo , deleteTodo }) {
   let { id , title , dueDate , completed } = todo
   return (
-    <div className="input-group ms-3 mt-3" key={id}>
+    <div className="input-group mt-3" key={id}>
       <div className="input-group-text">
         <input onChange={()=>toggleTodo(id)} checked={completed} id={id} className="form-check-input" type="checkbox" />
       </div>

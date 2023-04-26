@@ -12,7 +12,7 @@ export default function TodoList( { todos , toggleTodo , editTodo , updateTodo ,
       
       return (
         todo.isEditing ? 
-          <div className="input-group pt-3 px-3" style={{maxWidth: '650px'}}>
+          <div className="input-group pt-3" style={{maxWidth: '650px'}}>
             <div className="form-floating">
               <input onChange={ e => setTitle(e.target.value)} className="form-control" placeholder="Enter" />
               <label>Enter Updated Todo</label>
@@ -23,10 +23,9 @@ export default function TodoList( { todos , toggleTodo , editTodo , updateTodo ,
                 setTitle('')
                 setDueDate('')} 
               } 
-              // disabled={title === '' || dueDate === ''}
               title={title === '' || dueDate === '' ? 'Title and DueDate Can\'t be empty' : 'Update Task'}
               className="btn btn-primary"><RxUpdate fontSize={30} /></button>
-            <button onClick={() => cancelUpdate(todo.id)} className="btn btn-danger"><GiCancel fontSize={30} /></button>
+            <button title="Cancel Update" onClick={() => cancelUpdate(todo.id)} className="btn btn-danger"><GiCancel fontSize={30} /></button>
           </div>
         :
           <Todo key={todo.id} 

@@ -94,7 +94,7 @@ export default function App() {
   return (
     <>
       <div className='d-flex align-item-center'>
-        <div className='align-self-center input-group pt-3 px-3' style={{maxWidth: '650px'}}>
+        <div className='align-self-center input-group pt-3' style={{maxWidth: '650px'}}>
           <div className='form-floating'>
             <input ref={title} className='form-control' placeholder='Enter' />
             <label>Enter Todo Title</label>
@@ -124,8 +124,8 @@ export default function App() {
         </div>
       </div>
       <hr />
-      <h1 className='text-decoration-underline px-3'>Todo List</h1>
-      <h3 className='px-3'>Number of Tasks left todo : {todos.filter(todo => !todo.completed).length}</h3>
+      <h1 className='text-decoration-underline'>Todo List</h1>
+      <h3>Number of Tasks left todo : {todos.filter(todo => !todo.completed).length}</h3>
       <TodoList 
         todos={todos.filter(todo => !todo.completed)} 
         toggleTodo={toggleTodo}
@@ -134,8 +134,8 @@ export default function App() {
         cancelUpdate={cancelUpdate}
         deleteTodo={deleteTodo} />
       <hr />
-      <h1 className='text-decoration-underline px-3'>Completed List</h1>
-      <h3 className='px-3'>Number of Tasks completed : {todos.filter(todo => todo.completed).length}</h3>
+      <h1 className='text-decoration-underline'>Completed List</h1>
+      <h3>Number of Tasks completed : {todos.filter(todo => todo.completed).length}</h3>
       <CompletedList 
         todos={todos.filter(todo => todo.completed)} 
         toggleTodo={toggleTodo}

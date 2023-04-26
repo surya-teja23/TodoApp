@@ -3,3 +3,13 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+body {
+  background: linear-gradient(to left, #0093E9 , #80D0C7);
+  padding-left: 20px;
+}
+
+hr {
+  height: 5px;
+  background-color: black;
+}
